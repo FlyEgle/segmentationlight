@@ -1,0 +1,56 @@
+# base hyparams for training 
+# ------------DDP ----------------
+DIST:
+  DISTRIBUTED: 1
+  NGPU: 1
+  RANK: -1
+  DIST_BACKEND: "NCCL"
+  LOCAL_RANK: -1
+
+MODEL_NAME: "segnet_vgg16"
+DATASET_TYPE: "VOC"
+# ------------VOC DATASET ---------------
+VOC_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_val.log"
+  NUM_CLASSES: 21
+
+# ------------VOC_AUG DATASET ---------------
+VOC_AUG_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_val.log"
+  NUM_CLASSES: 21
+
+# ----------Transformes ----------------
+DATA:
+  CROP_SIZE: [512, 512]
+
+# TODO
+# ---------- Others DATASET--------------
+# ---------- Custom DATASET -------------
+
+# -----------SUMMARY----------------
+SUMMARY:
+  SAVE_PATH: "/data/jiangmingchao/data/AICKPT/Seg/SegNet/segnet_vgg16_gpux1_512"
+  CHECKPOINTS: "checkpoints"
+  LOG: "log_dir"
+
+# -----------OPTIMIZER--------------
+OPTIMIZER:
+  OPTIM_NAME: "SGD"
+  LEARNING_RATE: 0.01
+  COSINE: 1
+  FIX: 0
+  WEIGHT_DECAY:  0.0001
+  MOMENTUM: 0.9
+  BATCH_SIZE: 16
+  NUM_WORKERS: 32
+
+# ------------EPOCHS------------------
+WARMUP_EPOCHS: 0
+MAX_EPOCHS: 100
+FREQENCE: 1
+  
+SYNCBN: 0
+
+# -----------LOSSES -----------------

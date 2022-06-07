@@ -1,0 +1,126 @@
+# u2net baseline hyparameters
+# ------------DDP ----------------
+DIST:
+  DISTRIBUTED: 1
+  NGPU: 1
+  RANK: -1
+  DIST_BACKEND: "NCCL"
+  LOCAL_RANK: -1
+
+# MODEL_NAME: "u2net"
+MODEL_NAME: "u2net"
+DATASET_TYPE: "CUSTOM"
+# ------------VOC DATASET ---------------
+VOC_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_val.log"
+  NUM_CLASSES: 21
+
+# ------------VOC_AUG DATASET ---------------
+VOC_AUG_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_val.log"
+  NUM_CLASSES: 21
+
+# ---------- CUSTOM DATASET ------------
+CUSTOM_DATASET:
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_no_repeat_train.log"
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_20k.log"
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_12k_filter.log"
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_14k_rm_same_folder.log" # best
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_green/taobao_seg_14k_green_tryon_1k_shuf.txt"
+  # TRAIN_FILE : "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_green/taobao_14k_green_tryon_1k_filter_3w_2k_shuf.log" # NEW 17K
+  
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_green_shein/taobao_green_shein_shuf_27k.log"  # NEW 27K
+  #  VAL_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_no_repeat_val.log"
+  
+  # TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_green_shein/train_seg_shuf_25k.log"
+  TRAIN_FILE : "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_green_shein/train_seg_27k_refine_hole_shuf.log"
+  VAL_FILE : "/data/jiangmingchao/data/code/U-2-Net/makeData/seg_val_rm_hole.log"
+  # NUM_CLASSES: 1  # used for bceloss 
+  NUM_CLASSES: 2
+# ----------Transformes ----------------
+DATA:
+  # CROP_SIZE: [480, 480]
+  CROP_SIZE: [800, 800]
+
+# TODO
+# ---------- Others DATASET--------------
+# ---------- Custom DATASET -------------
+
+# -----------SUMMARY----------------
+SUMMARY:
+  SAVE_PATH: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/400_epoch_800_crop_0.3_1.2_1E-4_circle_2_27k_copypaste_sgd_ce"
+  CHECKPOINTS: "checkpoints"
+  LOG: "log_dir"
+
+# -----------OPTIMIZER--------------
+OPTIMIZER:
+  OPTIM_NAME: "SGD"  # ADAMW
+  LEARNING_RATE: 0.01   # 0.001
+  COSINE: 1
+  FIX: 0
+  CRICLE: 0
+  CRICLE_STEPS: 2
+  WEIGHT_DECAY:  0.0001 # 0.01    
+  MOMENTUM: 0.9
+  BATCH_SIZE: 8
+  NUM_WORKERS: 48
+
+# ------------EPOCHS------------------
+WARMUP_EPOCHS: 10
+MAX_EPOCHS: 200
+FREQENCE: 1
+
+# ------------SycnBN----------------
+SYNCBN: 0
+
+# -----------LOSSES -----------------
+# LOSS: "BCE+DICE"
+LOSS: "CE"
+
+# -----------PRETRAIN --------------
+PRETRAIN: False 
+PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/400_epoch_800_crop_0.3_1.2_1E-4_circle_2_27k_copypaste/checkpoints/best_ckpt_losses_0.1756678047989096_miou_0.9899707500586136.pth"
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/400_epoch_480_crop_0.3_1.2_5E-4_circle_2_25k_baseline_ce/checkpoints/best_ckpt_losses_0.08288952388933726_miou_0.9853206462283025.pth"
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/400_epoch_480_crop_0.3_1.2_5E-4_circle_2_25k_baseline/checkpoints/best_ckpt_losses_0.255808310849326_miou_0.9866068313419727.pth"
+
+
+
+
+# PRETRAIN_WEIGHTS: /data/jiangmingchao/data/AICKPT/Seg/U2Net/300_epoch_800_crop_0.3_1.2_cricle_2_from_27kpretrain_5e-4_new27k/checkpoints/best_ckpt_losses_0.17932851133602007_miou_0.9900042523340764.pth
+# PRETRAIN_WEIGHTS: /data/jiangmingchao/data/AICKPT/Seg/U2Net/300_epoch_320_crop_0.3_1.2_cricle_2_new27k/checkpoints/best_ckpt_losses_0.37233564257621765_miou_0.9840403229107935.pth
+# PRETRAIN_WEIGHTS: /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_300_epoch_320_crop_0.3_1.2_relu_1_bce_1_dice_cricle_2/checkpoints/best_ckpt_losses_0.36753059923648834_miou_0.9835136381246792.pth
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_800_relu_pretrain_17k/checkpoints/best_ckpt_losses_0.4262606395142419_miou_0.9889711563277688.pth"
+
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_320x320_relu/checkpoints/best_ckpt_losses_0.9227258222443717_miou_0.9785976140677624.pth"
+
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adamw_real_800x800_15k_20epoch_add_green_RandomCropScale_0.5/checkpoints/best_ckpt_losses_0.43711744035993305_miou_0.9885654761160251.pth"
+
+
+# PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_320x320_elu/checkpoints/best_ckpt_losses_0.9618568846157619_miou_0.9797444421563668.pth"
+
+
+# /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adamw_real_320x320_14k_data/checkpoints/best_ckpt_losses_1.1548381788390023_miou_0.9731329759628107.pth
+
+# best
+# "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adamw_real_800x800_14k_finetune_20epoch/checkpoints/best_ckpt_losses_0.5155016886336463_miou_0.9867006791631263.pth"
+
+# ------------Batch Aug --------------
+BATCH_AUG:
+  MIXUP: False
+
+# /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adamw_real_768x768_14k_data_320_pretrain_long_epoch/checkpoints/best_ckpt_losses_0.5636463910341263_miou_0.9844545931472927.pth
+
+
+#  /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt/
+
+# /data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_20k.log
+
+# /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adam_768x768/checkpoints/best_ckpt_losses_0.6692883372306824_miou_0.9821306581457698.pth
+# /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adam_768x768_20k_data/checkpoints/best_ckpt_losses_1.0762560623032706_miou_0.9748090077617877.pth
+
+
+# ACCUMULATE
+ACCUMULATE: False 
+ACCUMULATE_STEPS: 2

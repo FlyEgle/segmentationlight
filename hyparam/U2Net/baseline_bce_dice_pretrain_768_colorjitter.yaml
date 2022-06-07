@@ -1,0 +1,69 @@
+# u2net baseline hyparameters
+# ------------DDP ----------------
+DIST:
+  DISTRIBUTED: 1
+  NGPU: 1
+  RANK: -1
+  DIST_BACKEND: "NCCL"
+  LOCAL_RANK: -1
+
+MODEL_NAME: "u2net"
+DATASET_TYPE: "CUSTOM"
+# ------------VOC DATASET ---------------
+VOC_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC/seg_val.log"
+  NUM_CLASSES: 21
+
+# ------------VOC_AUG DATASET ---------------
+VOC_AUG_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/SegmentationLight/datasets/voc2012/data/VOC_AUG/seg_val.log"
+  NUM_CLASSES: 21
+
+# ---------- CUSTOM DATASET ------------
+CUSTOM_DATASET:
+  TRAIN_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_no_repeat_train.log"
+  VAL_FILE: "/data/jiangmingchao/data/code/U-2-Net/makeData/taobao_seg_no_repeat_val.log"
+  NUM_CLASSES: 1  # used for celoss 
+# ----------Transformes ----------------
+DATA:
+  CROP_SIZE: [768, 512]
+
+# TODO
+# ---------- Others DATASET--------------
+# ---------- Custom DATASET -------------
+
+# -----------SUMMARY----------------
+SUMMARY:
+  SAVE_PATH: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_sgd_1e-2_768x512_color/"
+  CHECKPOINTS: "checkpoints"
+  LOG: "log_dir"
+
+# -----------OPTIMIZER--------------
+OPTIMIZER:
+  OPTIM_NAME: "SGD"  # ADAMW
+  LEARNING_RATE: 0.01   # 0.001
+  COSINE: 1
+  FIX: 0
+  WEIGHT_DECAY:  0.0001 # 0.01    
+  MOMENTUM: 0.9
+  BATCH_SIZE: 12
+  NUM_WORKERS: 32
+
+# ------------EPOCHS------------------
+WARMUP_EPOCHS: 0
+MAX_EPOCHS: 80
+FREQENCE: 1
+  
+SYNCBN: 1
+
+# -----------LOSSES -----------------
+LOSS: "BCE+DICE"
+
+# -----------PRETRAIN --------------
+PRETRAIN: True 
+PRETRAIN_WEIGHTS: "/data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt_adamw_1e-3/checkpoints/best_ckpt_losses_1.2692347168922424_miou_0.9704867602975709.pth"
+
+
+#  /data/jiangmingchao/data/AICKPT/Seg/U2Net/baseline_bce_dice_refine_gt/
