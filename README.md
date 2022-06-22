@@ -114,3 +114,9 @@ CUSTOM_DATASET:
 ```
 3. modify other hyparams in the config for you training.
 
+### Resume
+if you want to resume the training, you only need add resume in the config yaml
+```
+RESUME: True
+RESUME_CHECKPOINTS: XXX.pth
+```
