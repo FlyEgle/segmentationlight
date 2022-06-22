@@ -22,3 +22,4 @@ datasets/voc2012/data/
 makeData.py 
 merge_data.py 
 to_srcipt.py
+*.DS_Store*

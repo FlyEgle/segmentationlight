@@ -192,6 +192,11 @@ def main_worker(args, opt):
         logger_info = None 
         ckpt_saver = None 
     
+    # train_batch = math.ceil(len(TrainLoader) / (args.batch_size * ngpus_per_node))
+    train_batch = len(TrainLoader)
+    total_batch = train_batch * opt.MAX_EPOCHS
+    print("train_batch: ", train_batch)
+
     # training params
     if opt.RESUME:
         start_epoch = resume_start_epoch
@@ -201,10 +206,6 @@ def main_worker(args, opt):
         start_epoch = 1 
         batch_iter = 0
 
-    # train_batch = math.ceil(len(TrainLoader) / (args.batch_size * ngpus_per_node))
-    train_batch = len(TrainLoader)
-    total_batch = train_batch * opt.MAX_EPOCHS
-    print("train_batch: ", train_batch)
 
     val_batch = math.ceil(len(ValidationDataset) / (opt.OPTIMIZER.BATCH_SIZE * ngpus_per_node))
 
